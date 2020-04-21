@@ -166,7 +166,7 @@ void DisplayCommandHandler::createDisplayBuffer(const xendispl_req& req)
 										 dbufReq->gref_directory,
 										 dbufReq->buffer_sz,
 										 dbufReq->width, dbufReq->height,
-										 dbufReq->bpp);
+										 dbufReq->bpp, dbufReq->data_ofs);
 }
 
 void DisplayCommandHandler::destroyDisplayBuffer(const xendispl_req& req)

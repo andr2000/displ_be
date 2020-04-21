@@ -60,10 +60,12 @@ public:
 	 * @param width          width in pixels
 	 * @param height         height in pixels
 	 * @param bpp            bits per pixel
+	 * @param offset         offset of the data in the buffer
 	 */
 	void createDisplayBuffer(uint64_t dbCookie, bool beAllocRefs,
 							 grant_ref_t startDirectory, uint32_t size,
-							 uint32_t width, uint32_t height, uint32_t bpp);
+							 uint32_t width, uint32_t height,
+							 uint32_t bpp, size_t offset);
 
 	/**
 	 * Creates frame buffer
@@ -109,9 +111,14 @@ private:
 
 	std::mutex mMutex;
 
+	struct PendingBuffer {
+		size_t offset;
+		DisplayItf::GrantRefs refs;
+	};
+
 	std::unordered_map<uint64_t, DisplayItf::FrameBufferPtr> mFrameBuffers;
 	std::unordered_map<uint64_t, DisplayItf::DisplayBufferPtr> mDisplayBuffers;
-	std::unordered_map<uint64_t, DisplayItf::GrantRefs> mPendingDisplayBuffers;
+	std::unordered_map<uint64_t, PendingBuffer> mPendingDisplayBuffers;
 
 	uint32_t getBpp(uint32_t format);
 	void handlePendingDisplayBuffers(uint64_t dbCookie, uint32_t width,

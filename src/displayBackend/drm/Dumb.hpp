@@ -41,8 +41,9 @@ public:
 	 * @param drmFd  DRM file descriptor
 	 * @param width  dumb width
 	 * @param height dumb height
+	 * @param offset offset of the data in the buffer
 	 */
-	DumbBase(int drmFd, uint32_t width, uint32_t height);
+	DumbBase(int drmFd, uint32_t width, uint32_t height, size_t offset);
 
 	virtual ~DumbBase() {};
 
@@ -103,11 +104,12 @@ public:
 	 * @param width  dumb width
 	 * @param height dumb height
 	 * @param bpp    bits per pixel
+	 * @param offset offset of the data in the buffer
 	 * @param domId  domain id
 	 * @param refs   grant table refs
 	 */
 	DumbDrm(int fd, uint32_t width, uint32_t height,
-			uint32_t bpp, domid_t domId = 0,
+			uint32_t bpp, size_t offset, domid_t domId = 0,
 			const DisplayItf::GrantRefs& refs = DisplayItf::GrantRefs());
 
 	~DumbDrm();
@@ -147,7 +149,8 @@ private:
 
 	void mapDumb();
 
-	void init(uint32_t bpp, domid_t domId, const DisplayItf::GrantRefs& refs);
+	void init(uint32_t bpp, size_t offset, domid_t domId,
+			  const DisplayItf::GrantRefs& refs);
 	void release();
 };
 
@@ -166,10 +169,12 @@ public:
 	 * @param width    dumb width
 	 * @param height   dumb height
 	 * @param bpp      bits per pixel
+	 * @param offset   offset of the data in the buffer
 	 */
 	DumbZCopyFront(int drmFd,
 				   uint32_t width, uint32_t height, uint32_t bpp,
-				   domid_t domId, const DisplayItf::GrantRefs& refs);
+				   size_t offset, domid_t domId,
+				   const DisplayItf::GrantRefs& refs);
 
 	~DumbZCopyFront();
 
@@ -200,7 +205,8 @@ private:
 	void createDumb(uint32_t bpp, domid_t domId,
 					const DisplayItf::GrantRefs& refs);
 
-	void init(uint32_t bpp, domid_t domId, const DisplayItf::GrantRefs& refs);
+	void init(uint32_t bpp, size_t offset, domid_t domId,
+			  const DisplayItf::GrantRefs& refs);
 	void release();
 };
 
@@ -217,10 +223,12 @@ public:
 	 * @param width    dumb width
 	 * @param height   dumb height
 	 * @param bpp      bits per pixel
+	 * @param offset   offset of the data in the buffer
 	 */
 	DumbZCopyFrontDrm(int drmFd,
 					  uint32_t width, uint32_t height, uint32_t bpp,
-					  domid_t domId, const DisplayItf::GrantRefs& refs);
+					  size_t offset, domid_t domId,
+					  const DisplayItf::GrantRefs& refs);
 
 	~DumbZCopyFrontDrm();
 
@@ -240,7 +248,8 @@ private:
 					const DisplayItf::GrantRefs& refs);
 	void createHandle();
 
-	void init(uint32_t bpp, domid_t domId, const DisplayItf::GrantRefs& refs);
+	void init(uint32_t bpp, size_t offset,
+			  domid_t domId, const DisplayItf::GrantRefs& refs);
 	void release();
 };
 
@@ -257,10 +266,11 @@ public:
 	 * @param width    dumb width
 	 * @param height   dumb height
 	 * @param bpp      bits per pixel
+	 * @param offset offset of the data in the buffer
 	 */
 	DumbZCopyBack(int drmFd,
 				  uint32_t width, uint32_t height, uint32_t bpp,
-				  domid_t domId, DisplayItf::GrantRefs& refs);
+				  size_t offset, domid_t domId, DisplayItf::GrantRefs& refs);
 
 	~DumbZCopyBack();
 
@@ -284,7 +294,8 @@ private:
 
 	void getGrantRefs(domid_t domId, DisplayItf::GrantRefs& refs);
 
-	void init(uint32_t bpp, domid_t domId, DisplayItf::GrantRefs& refs);
+	void init(uint32_t bpp, size_t offset, domid_t domId,
+			  DisplayItf::GrantRefs& refs);
 	void release();
 };
 
